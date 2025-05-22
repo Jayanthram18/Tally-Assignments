@@ -1,19 +1,26 @@
-from datetime import date
 from workLog.google import GoogleSheetLogger
+from datetime import datetime
+
+def get_input(prompt):
+    while True:
+        value = input(prompt).strip()
+        if value:
+            return value
+        print("⚠️ Input cannot be empty.")
 
 def main():
-    logger = GoogleSheetLogger(
-        sheet_name="SLM_Work_Log",
-        creds_path="credentials.json"
-    )
+    try:
+        logger = GoogleSheetLogger(sheet_name="SLM_Work_Log", creds_path="credentials.json")
+        logger.connect()
 
-    logger.connect()
+        logger.date = datetime.now().strftime("%Y-%m-%d")
+        logger.name = get_input("Enter your name: ")
+        logger.work_done = get_input("Enter work done: ")
 
-    today = str(date.today())
-    name = input("Enter your name: ")
-    work_done = input("What did you work on today? ")
+        logger.log_entry()
 
-    logger.log_entry(today, name, work_done)
+    except Exception as e:
+        print(f" Program failed: {e}")
 
 if __name__ == "__main__":
     main()
