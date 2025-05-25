@@ -1,5 +1,6 @@
 from workLog.google import GoogleSheetLogger
 from datetime import datetime
+from dateutil import parser
 
 def get_input(prompt):
     while True:
@@ -12,10 +13,10 @@ def get_valid_date(prompt):
     while True:
         date_input = input(prompt).strip()
         try:
-            datetime.strptime(date_input, "%d-%m-%Y")
-            return date_input
-        except ValueError:
-            print("Invalid date format. Please use DD-MM-YYYY.")
+            parsed_date = parser.parse(date_input, dayfirst=True)   
+            return parsed_date.strftime("%d-%m-%Y") 
+        except (ValueError, TypeError):
+            print("Invalid date format. Please enter a valid date (e.g. 12-05-2024, 12 May 2024, etc.).")
 
 def get_valid_field(prompt, setter):
     while True:
@@ -32,7 +33,7 @@ def main():
         logger.connect()
 
         while True:
-            logger.date = get_valid_date("📅 Enter the date (DD-MM-YYYY): ")
+            logger.date = get_valid_date("Enter the date (DD-MM-YYYY): ")
 
             get_valid_field("Enter your name: ", lambda val: setattr(logger, 'name', val))
             get_valid_field("Enter work done: ", lambda val: setattr(logger, 'work_done', val))
@@ -43,9 +44,9 @@ def main():
             except Exception as log_err:
                 print(f"Failed to log task: {log_err}")
 
-            choice = input("➕ Do you want to log another task? (y/n): ").strip().lower()
+            choice = input("- Do you want to log another task? (y/n): ").strip().lower()
             if choice != 'y':
-                print("Exiting the logger.")
+                print("Exit")
                 break
 
     except Exception as e:

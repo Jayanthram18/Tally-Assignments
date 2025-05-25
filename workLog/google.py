@@ -7,7 +7,7 @@ class GoogleSheetLogger(BaseLogger):
         super().__init__()
         google_details._sheet_name = sheet_name
         google_details._creds_path = creds_path
-        google_details._sheet = None
+        google_details._sheet = None 
 
     def connect(google_details):
         scope = [
@@ -17,7 +17,7 @@ class GoogleSheetLogger(BaseLogger):
         ]
         try:
             creds = ServiceAccountCredentials.from_json_keyfile_name(
-                google_details._creds_path, scope)
+                google_details._creds_path, scope) 
         except Exception as e:
             print(f"Failed to load credentials: {e}")
             raise

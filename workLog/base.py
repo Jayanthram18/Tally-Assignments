@@ -2,9 +2,9 @@ from abc import ABC, abstractmethod
 
 class BaseLogger(ABC):
     def __init__(logger_details):
-        logger_details._date = None
-        logger_details._name = None
-        logger_details._work_done = None
+        logger_details._date = None 
+        logger_details._name = None 
+        logger_details._work_done = None 
 
     @property
     def date(logger_details):
@@ -21,10 +21,10 @@ class BaseLogger(ABC):
     @name.setter
     def name(logger_details, value):
         if not all(word.isalnum() for word in value.split()):
-            raise ValueError("Name must contain only alphanumeric characters and spaces.")
-        if len(value.split()) > 100:
-            raise ValueError("Name cannot exceed 100 words.")
-        logger_details._name = value
+            raise ValueError("Name must contain only alphanumeric characters and spaces.")  
+        if len(value.split()) > 100: 
+            raise ValueError("Name cannot exceed 100 words.")  
+        logger_details._name = value  
 
     @property
     def work_done(logger_details):
@@ -33,10 +33,10 @@ class BaseLogger(ABC):
     @work_done.setter
     def work_done(logger_details, value):
         if not all(word.isalnum() for word in value.split()):
-            raise ValueError("Task must contain only alphanumeric characters and spaces.")
-        if len(value.split()) > 100:
+            raise ValueError("Task must contain only alphanumeric characters and spaces.") 
+        if len(value.split()) > 100: 
             raise ValueError("Task description cannot exceed 100 words.")
-        logger_details._work_done = value
+        logger_details._work_done = value 
 
     @abstractmethod
     def connect(logger_details):
